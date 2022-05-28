@@ -12,10 +12,13 @@ dependencies:
     sdk: flutter
   font_awesome_flutter: ^10.1.0
   intl: ^0.17.0
-  flutter_login: ^4.0.0-beta.1
   flutterfire_auth:
     git:
       url: https://github.com/tmcmaster/flutterfire_auth.git
+  flutter_login:
+    git:
+      url: https://github.com/tmcmaster/flutter_login.git
+      ref: tmcmaster-bugfix/20220523
 
 dev_dependencies:
   flutter_test:
@@ -23,10 +26,10 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 dependency_overrides:
-  flutterfire_auth:
-    path: ../flutterfire_auth
-  flutter_login:
-    path: ../../../clone/flutter_login
+#  flutterfire_auth:
+#    path: ../flutterfire_auth
+#  flutter_login:
+#    path: ../../../clone/flutter_login
 
 
 # For information on the generic Dart part of this file, see the
@@ -34,6 +37,8 @@ dependency_overrides:
 
 # The following section is specific to Flutter packages.
 flutter:
+
+  uses-material-design: true
 
   # To add assets to your package, add an assets section, like this:
   # assets:

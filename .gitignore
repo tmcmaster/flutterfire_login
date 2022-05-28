@@ -31,3 +31,6 @@ build/
 junk/
 hold/
 
+.flutter-plugins
+.flutter-plugins-dependencies
+

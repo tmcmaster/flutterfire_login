@@ -10,8 +10,22 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class FlutterfireLogin extends StatelessWidget {
   static const routeName = '/auth';
 
+  static const ColorScheme _defaultColorScheme = ColorScheme(
+    brightness: Brightness.light,
+    primary: Color(0xFFE09A11),
+    onPrimary: Color(0xFFEEEEED),
+    secondary: Color(0xFF747474),
+    onSecondary: Color(0xFFE09A11),
+    error: Color(0xFFFF1818),
+    onError: Color(0xFFEEEEED),
+    background: Color(0xFFEEEEED),
+    onBackground: Color(0xFF747474),
+    surface: Color(0xFFAFA594),
+    onSurface: Color(0xFFEEEEED),
+  );
+
   final String appTitle;
-  // final WidgetBuilder landingPageBuilder;
+  final ColorScheme colorScheme;
   final String landingPageRoute;
   final FlutterfireAuthNotifier authNotifier;
   final bool googleLogin;
@@ -21,7 +35,7 @@ class FlutterfireLogin extends StatelessWidget {
   const FlutterfireLogin({
     Key? key,
     required this.appTitle,
-    // required this.landingPageBuilder,
+    this.colorScheme = _defaultColorScheme,
     required this.landingPageRoute,
     required this.authNotifier,
     this.googleLogin = false,
@@ -30,6 +44,83 @@ class FlutterfireLogin extends StatelessWidget {
   }) : super(key: key);
 
   Duration get loginTime => Duration(milliseconds: timeDilation.ceil() * 2250);
+
+  LoginTheme get loginTheme => LoginTheme(
+        primaryColor: colorScheme.primary,
+        accentColor: colorScheme.secondary,
+        errorColor: colorScheme.error,
+        pageColorLight: colorScheme.background,
+        pageColorDark: colorScheme.background,
+        logoWidth: 0.80,
+        titleStyle: TextStyle(
+          color: colorScheme.onPrimary,
+          fontFamily: 'Quicksand',
+          letterSpacing: 4,
+        ),
+        // beforeHeroFontSize: 50,
+        // afterHeroFontSize: 20,
+        bodyStyle: const TextStyle(
+          fontStyle: FontStyle.italic,
+          //decoration: TextDecoration.underline,
+        ),
+        textFieldStyle: TextStyle(
+          color: colorScheme.onSecondary,
+          //shadows: [Shadow(color: colorScheme.background, blurRadius: 2)],
+        ),
+        buttonStyle: TextStyle(
+          fontWeight: FontWeight.w800,
+          color: colorScheme.onPrimary,
+        ),
+        cardTheme: CardTheme(
+          color: colorScheme.surface,
+          elevation: 5,
+          margin: EdgeInsets.only(top: 15),
+          shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
+        ),
+        inputTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: colorScheme.secondary.withOpacity(1),
+          contentPadding: EdgeInsets.zero,
+          errorStyle: const TextStyle(
+            backgroundColor: Colors.orange,
+            color: Colors.white,
+          ),
+          labelStyle: const TextStyle(fontSize: 12),
+          // enabledBorder: UnderlineInputBorder(
+          //   borderSide: BorderSide(color: Colors.blue.shade700, width: 4),
+          //   borderRadius: inputBorder,
+          // ),
+          // focusedBorder: UnderlineInputBorder(
+          //   borderSide: BorderSide(color: Colors.blue.shade400, width: 5),
+          //   borderRadius: inputBorder,
+          // ),
+          // errorBorder: UnderlineInputBorder(
+          //   borderSide: BorderSide(color: Colors.red.shade700, width: 7),
+          //   borderRadius: inputBorder,
+          // ),
+          // focusedErrorBorder: UnderlineInputBorder(
+          //   borderSide: BorderSide(color: Colors.red.shade400, width: 8),
+          //   borderRadius: inputBorder,
+          // ),
+          // disabledBorder: UnderlineInputBorder(
+          //   borderSide: BorderSide(color: Colors.grey, width: 5),
+          //   borderRadius: inputBorder,
+          // ),
+        ),
+        // buttonTheme: LoginButtonTheme(
+        //   splashColor: Colors.purple,
+        //   backgroundColor: colorScheme.primary,
+        //   highlightColor: Colors.lightGreen,
+        //   elevation: 9.0,
+        //   highlightElevation: 6.0,
+        //   // shape: BeveledRectangleBorder(
+        //   //   borderRadius: BorderRadius.circular(10),
+        //   // ),
+        //   // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        //   // shape: CircleBorder(side: BorderSide(color: Colors.green)),
+        //   // shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(55.0)),
+        // ),
+      );
 
   Future<String?> _loginUser(LoginData data) {
     final completer = Completer<String?>();
@@ -114,15 +205,16 @@ class FlutterfireLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final inputBorder = BorderRadius.circular(20.0);
     return FlutterLogin(
       title: appTitle,
-      //logo: const AssetImage('assets/splash.png'),
+      //logo: const AssetImage('assets/images/icon.png'),
       logoTag: 'logo.tag',
       titleTag: 'title.tag',
       navigateBackAfterRecovery: true,
       messages: LoginMessages(
-        recoverPasswordIntro:
-            'Please enter the email address for the account you would like to change the password for.',
+        userHint: 'Email',
+        recoverPasswordIntro: 'Password Reset',
         recoverPasswordDescription: 'A reset password link will be sent to this email address.',
       ),
       //onConfirmRecover: _recoveryConfirm,
@@ -173,7 +265,9 @@ class FlutterfireLogin extends StatelessWidget {
           },
         ),
       ],
+      hideProvidersTitle: true,
       initialAuthMode: AuthMode.login,
+
       // scrollable: true,
       // hideProvidersTitle: false,
       // loginAfterSignUp: false,
@@ -197,83 +291,7 @@ class FlutterfireLogin extends StatelessWidget {
       //   flushbarTitleSuccess: 'Succes!',
       //   providersTitle: 'login with'
       // ),
-      // theme: LoginTheme(
-      //   primaryColor: Colors.teal,
-      //   accentColor: Colors.yellow,
-      //   errorColor: Colors.deepOrange,
-      //   pageColorLight: Colors.indigo.shade300,
-      //   pageColorDark: Colors.indigo.shade500,
-      //   logoWidth: 0.80,
-      //   titleStyle: TextStyle(
-      //     color: Colors.greenAccent,
-      //     fontFamily: 'Quicksand',
-      //     letterSpacing: 4,
-      //   ),
-      //   // beforeHeroFontSize: 50,
-      //   // afterHeroFontSize: 20,
-      //   bodyStyle: TextStyle(
-      //     fontStyle: FontStyle.italic,
-      //     decoration: TextDecoration.underline,
-      //   ),
-      //   textFieldStyle: TextStyle(
-      //     color: Colors.orange,
-      //     shadows: [Shadow(color: Colors.yellow, blurRadius: 2)],
-      //   ),
-      //   buttonStyle: TextStyle(
-      //     fontWeight: FontWeight.w800,
-      //     color: Colors.yellow,
-      //   ),
-      //   cardTheme: CardTheme(
-      //     color: Colors.yellow.shade100,
-      //     elevation: 5,
-      //     margin: EdgeInsets.only(top: 15),
-      //     shape: ContinuousRectangleBorder(
-      //         borderRadius: BorderRadius.circular(100.0)),
-      //   ),
-      //   inputTheme: InputDecorationTheme(
-      //     filled: true,
-      //     fillColor: Colors.purple.withOpacity(.1),
-      //     contentPadding: EdgeInsets.zero,
-      //     errorStyle: TextStyle(
-      //       backgroundColor: Colors.orange,
-      //       color: Colors.white,
-      //     ),
-      //     labelStyle: TextStyle(fontSize: 12),
-      //     enabledBorder: UnderlineInputBorder(
-      //       borderSide: BorderSide(color: Colors.blue.shade700, width: 4),
-      //       borderRadius: inputBorder,
-      //     ),
-      //     focusedBorder: UnderlineInputBorder(
-      //       borderSide: BorderSide(color: Colors.blue.shade400, width: 5),
-      //       borderRadius: inputBorder,
-      //     ),
-      //     errorBorder: UnderlineInputBorder(
-      //       borderSide: BorderSide(color: Colors.red.shade700, width: 7),
-      //       borderRadius: inputBorder,
-      //     ),
-      //     focusedErrorBorder: UnderlineInputBorder(
-      //       borderSide: BorderSide(color: Colors.red.shade400, width: 8),
-      //       borderRadius: inputBorder,
-      //     ),
-      //     disabledBorder: UnderlineInputBorder(
-      //       borderSide: BorderSide(color: Colors.grey, width: 5),
-      //       borderRadius: inputBorder,
-      //     ),
-      //   ),
-      //   buttonTheme: LoginButtonTheme(
-      //     splashColor: Colors.purple,
-      //     backgroundColor: Colors.pinkAccent,
-      //     highlightColor: Colors.lightGreen,
-      //     elevation: 9.0,
-      //     highlightElevation: 6.0,
-      //     shape: BeveledRectangleBorder(
-      //       borderRadius: BorderRadius.circular(10),
-      //     ),
-      //     // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-      //     // shape: CircleBorder(side: BorderSide(color: Colors.green)),
-      //     // shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(55.0)),
-      //   ),
-      // ),
+      theme: loginTheme,
       userValidator: (value) {
         if (!value!.contains('@')) {
           return "Not a valid email address";
