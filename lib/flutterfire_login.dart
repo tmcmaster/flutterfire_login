@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:flutter_login/flutter_login.dart';
-import 'package:flutterfire_auth/flutterfire_auth.dart';
+import 'package:flutterfire_login/flutterfire_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FlutterfireLogin extends StatelessWidget {
